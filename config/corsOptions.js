@@ -1,7 +1,15 @@
+const allowedOrigins = require('./allowedOrigins');
 
 const corsOptions = {
-    origin: 'https://sevenfernando.vercel.app/',
-    optionSuccessStatus: 200
+    origin: (origin, callback) => {
+        if(allowedOrigins.indexOf(origin) !== -1){
+            callback(null, true)
+        } else {
+            callback(new Error('Not allowed by CORS to access this API'))
+        }
+    },
+    credentials: true, 
+    optionsSuccessStatus: 200
 }
 
-module.exports = corsOptions
+module.exports = corsOptions;
